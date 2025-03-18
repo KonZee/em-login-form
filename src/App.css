@@ -5,20 +5,18 @@
 }
 
 .form {
-	/* display: flex;
-	flex-direction: column; */
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	max-width: 40rem;
-	display: grid;
-	grid-row-gap: 1.5rem;
 	text-align: justify;
 }
 
 .fieldContainer {
-	/* display: grid; */
 	position: relative;
 	margin: 0;
 	border-bottom: 1px solid #999;
+	margin-bottom: 2rem;
 }
 
 .input {
@@ -39,6 +37,18 @@ label {
 	transition: font-size 200ms ease, top 200ms ease;
 }
 
+.error {
+	position: absolute;
+	color: red;
+	left: 0;
+	bottom: -1.5rem;
+	transition: opacity 200ms ease;
+}
+
+.hiddenError {
+	opacity: 0;
+}
+
 /* Make placeholder invisible, we need that to make :not(:placeholder-shown) work  */
 .input::placeholder {
 	opacity: 0;
@@ -52,40 +62,5 @@ label {
 
 .button {
 	font-size: 2rem;
+	margin-top: 0.5rem;
 }
-
-/* .logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: filter 300ms;
-}
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-	filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	a:nth-of-type(2) .logo {
-		animation: logo-spin infinite 20s linear;
-	}
-}
-
-.card {
-	padding: 2em;
-}
-
-.read-the-docs {
-	color: #888;
-} */
