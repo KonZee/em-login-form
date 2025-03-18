@@ -1,6 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { type LoginError, mockLoginFetch } from "./fake-api";
+import {
+	type LoginError,
+	type LoginVariables,
+	mockLoginFetch,
+} from "./fake-api";
 
 // TODO
 // 1. Add submit with fetch mock
@@ -17,8 +21,10 @@ const emailRegex =
 	/([-!#-'*+\/-9=?A-Z^-~]+(\.[-!#-'*+\/-9=?A-Z^-~]+)*|"([]!#-[^-~ \t]|(\\[\t -~]))+")@([-!#-'*+\/-9=?A-Z^-~]+(\.[-!#-'*+\/-9=?A-Z^-~]+)*|\[[\t -Z^-~]*])/i;
 
 function App() {
-	const emailRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
+	const [formValues, setFormValues] = useState<LoginVariables>({
+		email: "",
+		password: "",
+	});
 	const [loading, setLoading] = useState<boolean>(false);
 	const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
@@ -29,18 +35,18 @@ function App() {
 		let emailIsInvalid = false;
 		let passwordIsInvalid = false;
 
-		const emailValue = emailRef.current?.value;
-		const passwordValue = passwordRef.current?.value;
+		const emailValue = formValues.email || "";
+		const passwordValue = formValues.password || "";
 		const emailIsValid = emailValue && emailRegex.test(emailValue);
 
-		if (!emailValue?.length) {
+		if (!emailValue.length) {
 			setEmailErrorMessage("Email is required");
 		} else if (!emailIsValid) {
 			setEmailErrorMessage("Email is not valid");
 			emailIsInvalid = true;
 		}
 
-		if (!passwordValue?.length) {
+		if (!passwordValue.length) {
 			setPasswordErrorMessage("Password is required");
 			passwordIsInvalid = true;
 		}
@@ -51,8 +57,8 @@ function App() {
 
 		setLoading(true);
 		const data = await mockLoginFetch({
-			email: emailRef.current?.value || "",
-			password: passwordRef.current?.value || "",
+			email: emailValue,
+			password: passwordValue,
 		});
 
 		const payload = await data.json();
@@ -67,29 +73,38 @@ function App() {
 		setLoading(false);
 	}
 
-	function handleEmailErrorReset() {
-		setEmailErrorMessage("");
+	function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
+		handleResetInput(e);
 	}
 
-	function handlePasswordEmailReset() {
-		setPasswordErrorMessage("");
+	function handleResetInput(e: React.ChangeEvent<HTMLInputElement>) {
+		switch (e.target.id) {
+			case "email":
+				setEmailErrorMessage("");
+				break;
+			case "password":
+				setPasswordErrorMessage("");
+				break;
+		}
 	}
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
 			<div className="fieldContainer">
 				<input
-					ref={emailRef}
-					id="emailInput"
+					id="email"
 					className="input"
 					aria-label="Input Email"
 					// Use text instead of email to handle validation errors in the same way as others, not by browser
 					type="text"
 					placeholder="Your email"
-					onFocus={handleEmailErrorReset}
-					onChange={handleEmailErrorReset}
+					value={formValues.email}
+					onFocus={handleResetInput}
+					onChange={handleInputChange}
 				/>
-				<label htmlFor="emailInput" className="label">
+				<label htmlFor="email" className="label">
 					Email:
 				</label>
 				<span className={`error ${emailErrorMessage ? "" : "hiddenError"}`}>
@@ -98,16 +113,16 @@ function App() {
 			</div>
 			<div className="fieldContainer">
 				<input
-					ref={passwordRef}
-					id="passwordInput"
+					id="password"
 					className="input"
 					aria-label="Input Password"
 					type="password"
 					placeholder="Your password"
-					onFocus={handlePasswordEmailReset}
-					onChange={handlePasswordEmailReset}
+					value={formValues.password}
+					onFocus={handleResetInput}
+					onChange={handleInputChange}
 				/>
-				<label htmlFor="passwordInput" className="label">
+				<label htmlFor="password" className="label">
 					Password:
 				</label>
 				<span className={`error ${passwordErrorMessage ? "" : "hiddenError"}`}>
