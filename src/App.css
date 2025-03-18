@@ -49,7 +49,7 @@ label {
 	opacity: 0;
 }
 
-/* Make placeholder invisible, we need that to make :not(:placeholder-shown) work  */
+/* Make placeholder invisible, we need it to :not(:placeholder-shown) selector work  */
 .input::placeholder {
 	opacity: 0;
 }

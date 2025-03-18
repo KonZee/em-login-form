@@ -10,6 +10,12 @@ import { type LoginError, mockLoginFetch } from "./fake-api";
 // 5. Icons
 // 6. Reveal Password buttons
 
+// Let's do validation without library - this is email validation regex according IETF RFC 5322 standard
+// Practically better to use zod or other validation lib
+const emailRegex =
+	// biome-ignore lint/correctness/noEmptyCharacterClassInRegex: <explanation>
+	/([-!#-'*+\/-9=?A-Z^-~]+(\.[-!#-'*+\/-9=?A-Z^-~]+)*|"([]!#-[^-~ \t]|(\\[\t -~]))+")@([-!#-'*+\/-9=?A-Z^-~]+(\.[-!#-'*+\/-9=?A-Z^-~]+)*|\[[\t -Z^-~]*])/i;
+
 function App() {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
@@ -19,16 +25,37 @@ function App() {
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
+
+		let emailIsInvalid = false;
+		let passwordIsInvalid = false;
+
+		const emailValue = emailRef.current?.value;
+		const passwordValue = passwordRef.current?.value;
+		const emailIsValid = emailValue && emailRegex.test(emailValue);
+
+		if (!emailValue?.length) {
+			setEmailErrorMessage("Email is required");
+		} else if (!emailIsValid) {
+			setEmailErrorMessage("Email is not valid");
+			emailIsInvalid = true;
+		}
+
+		if (!passwordValue?.length) {
+			setPasswordErrorMessage("Password is required");
+			passwordIsInvalid = true;
+		}
+
+		if (emailIsInvalid || passwordIsInvalid) {
+			return;
+		}
+
 		setLoading(true);
 		const data = await mockLoginFetch({
-			email: emailRef.current?.value || "test@test1.com",
-			password: passwordRef.current?.value || "12345",
+			email: emailRef.current?.value || "",
+			password: passwordRef.current?.value || "",
 		});
 
-		console.log(data);
 		const payload = await data.json();
-		console.log(payload);
-
 		if (data.ok) {
 			// Proceed success
 		} else {
@@ -56,7 +83,8 @@ function App() {
 					id="emailInput"
 					className="input"
 					aria-label="Input Email"
-					type="email"
+					// Use text instead of email to handle validation errors in the same way as others, not by browser
+					type="text"
 					placeholder="Your email"
 					onFocus={handleEmailErrorReset}
 					onChange={handleEmailErrorReset}
