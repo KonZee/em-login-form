@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import IconEyeClosed from "../../assets/icons/eye-closed.svg?react";
 import IconEye from "../../assets/icons/eye.svg?react";
 import IconPassword from "../../assets/icons/lock-password.svg?react";
