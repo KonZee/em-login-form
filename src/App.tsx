@@ -11,14 +11,6 @@ import {
 	mockLoginFetch,
 } from "./fake-api";
 
-// TODO
-// 1. Add submit with fetch mock
-// 2. Validation
-// 3. Loading state for API response
-// 4. Image
-// 5. Icons
-// 6. Reveal Password buttons
-
 // Let's do validation without library - this is email validation regex according IETF RFC 5322 standard
 // Practically better to use zod or other validation lib
 const emailRegex =
@@ -70,7 +62,9 @@ function App() {
 
 		const payload = await data.json();
 		if (data.ok) {
-			// Proceed success
+			// Proceed success:
+			// Implement Router
+			// Store token and logged user data somewhere (perhaps on the early stage)
 		} else {
 			// Must be better, let it be as for now
 			const error = (payload as LoginError).error;
