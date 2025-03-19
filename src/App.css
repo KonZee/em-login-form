@@ -17,7 +17,7 @@
 	align-items: center;
 	margin: 0;
 	border-bottom: 1px solid #999;
-	margin-bottom: 2rem;
+	margin-bottom: 3rem;
 }
 
 .field {
@@ -26,9 +26,11 @@
 }
 
 .icon {
-	width: 2rem;
-	height: 2rem;
-	margin-right: 1rem;
+	width: 1.4rem;
+	height: 1.4rem;
+	min-width: 1.4rem;
+	min-height: 1.4rem;
+	margin-right: 0.7rem;
 }
 
 .iconEye {
@@ -52,8 +54,8 @@
 	position: relative;
 	border: none;
 	outline: none;
-	height: 4rem;
-	font-size: 2rem;
+	height: 3rem;
+	font-size: 1.5rem;
 	padding: 0;
 }
 
@@ -61,7 +63,7 @@ label {
 	position: absolute;
 	top: 0.5rem;
 	left: 0;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	transition: font-size 200ms ease, top 200ms ease, left 200ms ease;
 	color: #666;
 }
@@ -69,7 +71,7 @@ label {
 .error {
 	position: absolute;
 	color: red;
-	left: -3rem;
+	left: -2rem;
 	bottom: -1.5rem;
 	transition: opacity 200ms ease;
 }
@@ -87,7 +89,7 @@ label {
 .input:not(:placeholder-shown) + label {
 	font-size: 1rem;
 	top: -1rem;
-	left: -3rem;
+	left: -2rem;
 }
 
 .button {
@@ -102,6 +104,34 @@ label {
 
 .buttonText {
 	position: relative;
+}
+
+@media (min-width: 768px) {
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		min-width: 2rem;
+		min-height: 2rem;
+		margin-right: 1rem;
+	}
+
+	.input {
+		height: 4rem;
+		font-size: 2rem;
+	}
+
+	.label {
+		font-size: 2rem;
+	}
+
+	.error {
+		left: -3rem;
+	}
+
+	.input:focus + label,
+	.input:not(:placeholder-shown) + label {
+		left: -3rem;
+	}
 }
 
 @keyframes rotate {
