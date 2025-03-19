@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import IconEyeClosed from "../../assets/icons/eye-closed.svg?react";
 import IconEye from "../../assets/icons/eye.svg?react";
 import IconPassword from "../../assets/icons/lock-password.svg?react";
@@ -25,6 +26,7 @@ function Login() {
 	const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 	const [isPasswordVisible, setPasswordVisibility] = useState<boolean>(false);
+	const navigate = useNavigate();
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -63,9 +65,8 @@ function Login() {
 
 		const payload = await data.json();
 		if (data.ok) {
-			// Proceed success:
-			// Implement Router
 			// Store token and logged user data somewhere (perhaps on the early stage)
+			navigate("/welcome");
 		} else {
 			// Must be better, let it be as for now
 			const error = (payload as LoginError).error;
