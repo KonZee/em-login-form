@@ -9,7 +9,7 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
 	createRoot(rootElement).render(
 		<StrictMode>
-			<BrowserRouter>
+			<BrowserRouter basename={import.meta.env.VITE_APP_BASEURL}>
 				<App />
 			</BrowserRouter>
 		</StrictMode>,
