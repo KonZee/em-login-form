@@ -1,14 +1,14 @@
 import { useState } from "react";
-import IconEyeClosed from "./assets/icons/eye-closed.svg?react";
-import IconEye from "./assets/icons/eye.svg?react";
-import IconPassword from "./assets/icons/lock-password.svg?react";
-import IconMail from "./assets/icons/mail.svg?react";
-import IconRefresh from "./assets/icons/refresh.svg?react";
+import IconEyeClosed from "../../assets/icons/eye-closed.svg?react";
+import IconEye from "../../assets/icons/eye.svg?react";
+import IconPassword from "../../assets/icons/lock-password.svg?react";
+import IconMail from "../../assets/icons/mail.svg?react";
+import IconRefresh from "../../assets/icons/refresh.svg?react";
 import {
 	type LoginError,
 	type LoginVariables,
 	mockLoginFetch,
-} from "./fake-api";
+} from "../../fake-api";
 
 // Let's do validation without library - this is email validation regex according IETF RFC 5322 standard
 // Practically better to use zod or other validation lib

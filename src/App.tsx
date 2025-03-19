@@ -1,11 +1,14 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./Login";
+import Login from "./assets/components/Login";
+import Welcome from "./assets/components/Welcome";
 
 function App() {
 	return (
-		<>
-			<Login />
-		</>
+		<Routes>
+			<Route path="/" element={<Login />} />
+			<Route path="/welcome" element={<Welcome />} />
+		</Routes>
 	);
 }
 
