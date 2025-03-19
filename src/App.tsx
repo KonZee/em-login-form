@@ -1,5 +1,10 @@
 import { useState } from "react";
 import "./App.css";
+import IconEyeClosed from "./assets/icons/eye-closed.svg?react";
+import IconEye from "./assets/icons/eye.svg?react";
+import IconPassword from "./assets/icons/lock-password.svg?react";
+import IconMail from "./assets/icons/mail.svg?react";
+import IconRefresh from "./assets/icons/refresh.svg?react";
 import {
 	type LoginError,
 	type LoginVariables,
@@ -28,6 +33,7 @@ function App() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+	const [isPasswordVisible, setPasswordVisibility] = useState<boolean>(false);
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -41,6 +47,7 @@ function App() {
 
 		if (!emailValue.length) {
 			setEmailErrorMessage("Email is required");
+			emailIsInvalid = true;
 		} else if (!emailIsValid) {
 			setEmailErrorMessage("Email is not valid");
 			emailIsInvalid = true;
@@ -90,48 +97,76 @@ function App() {
 		}
 	}
 
+	function handleSwitchPasswordVisibility() {
+		setPasswordVisibility(!isPasswordVisible);
+	}
+
 	return (
 		<form className="form" onSubmit={handleSubmit}>
 			<div className="fieldContainer">
-				<input
-					id="email"
-					className="input"
-					aria-label="Input Email"
-					// Use text instead of email to handle validation errors in the same way as others, not by browser
-					type="text"
-					placeholder="Your email"
-					value={formValues.email}
-					onFocus={handleResetInput}
-					onChange={handleInputChange}
-				/>
-				<label htmlFor="email" className="label">
-					Email:
-				</label>
-				<span className={`error ${emailErrorMessage ? "" : "hiddenError"}`}>
-					{emailErrorMessage}
-				</span>
+				<IconMail className="icon" />
+				<div className="field">
+					<input
+						id="email"
+						className="input"
+						aria-label="Input Email"
+						// Use text instead of email to handle validation errors in the same way as others, not to trigger browser`s one
+						type="text"
+						placeholder="Your email"
+						value={formValues.email}
+						onFocus={handleResetInput}
+						onChange={handleInputChange}
+					/>
+					<label htmlFor="email" className="label">
+						Email:
+					</label>
+					<span className={`error ${emailErrorMessage ? "" : "hiddenError"}`}>
+						{emailErrorMessage}
+					</span>
+				</div>
 			</div>
 			<div className="fieldContainer">
-				<input
-					id="password"
-					className="input"
-					aria-label="Input Password"
-					type="password"
-					placeholder="Your password"
-					value={formValues.password}
-					onFocus={handleResetInput}
-					onChange={handleInputChange}
-				/>
-				<label htmlFor="password" className="label">
-					Password:
-				</label>
-				<span className={`error ${passwordErrorMessage ? "" : "hiddenError"}`}>
-					{passwordErrorMessage}
-				</span>
+				<IconPassword className="icon" />
+				<div className="field">
+					<input
+						id="password"
+						className="input"
+						aria-label="Input Password"
+						type={isPasswordVisible ? "text" : "password"}
+						placeholder="Your password"
+						value={formValues.password}
+						onFocus={handleResetInput}
+						onChange={handleInputChange}
+					/>
+					<label htmlFor="password" className="label">
+						Password:
+					</label>
+					<span
+						className={`error ${passwordErrorMessage ? "" : "hiddenError"}`}
+					>
+						{passwordErrorMessage}
+					</span>
+					{isPasswordVisible ? (
+						<IconEye
+							className="icon iconEye"
+							onClick={handleSwitchPasswordVisibility}
+						/>
+					) : (
+						<IconEyeClosed
+							className="icon iconEye"
+							onClick={handleSwitchPasswordVisibility}
+						/>
+					)}
+				</div>
 			</div>
 
 			<button type="submit" className="button" disabled={loading}>
-				Login
+				<div className="buttonContent">
+					<div className="buttonText">
+						{loading && <IconRefresh className="icon iconSpinner" />}
+						Login
+					</div>
+				</div>
 			</button>
 		</form>
 	);

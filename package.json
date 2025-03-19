@@ -14,7 +14,8 @@
 	"dependencies": {
 		"pnpm": "^10.6.4",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
+		"react-dom": "^19.0.0",
+		"vite-plugin-svgr": "^4.3.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
