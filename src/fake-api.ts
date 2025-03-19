@@ -29,6 +29,7 @@ export const mockLoginFetch = (credentials: LoginVariables) => {
 						Promise.resolve({
 							success: true,
 							token: "fake-jwt-token-for-testing",
+							// There must be user data also but we don't need it to mock
 						}),
 				});
 			} else {
